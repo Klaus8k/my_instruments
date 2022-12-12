@@ -1,5 +1,5 @@
 import pathlib
 
-x = pathlib.Path.
+x = pathlib.Path()
 
 print(x)
