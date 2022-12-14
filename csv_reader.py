@@ -2,8 +2,10 @@ import pathlib
 import csv
 import logging
 
-logger = logging.basicConfig(filename='log_csv.txt', filemode='a')
-
+logging.basicConfig(filename='log_csv.txt', filemode='w',
+                                level=logging.DEBUG,
+                                format='%(process)d - %(relativeCreated)d ms - %(message)s')
+logging.warning('')
 files_dir = pathlib.Path.cwd() / 'csv_files'
 target_file = files_dir / '01.01.2022-12.12.2022.csv'
 
@@ -28,9 +30,12 @@ csv_file = pathlib.Path.cwd() / 'csv_files' / file_name
 
 class Pars_csv(csv.DictReader):
     def __init__(self, path):
+
         self.path = path
         x = open(self.path, 'r', encoding='utf8')
         super().__init__(x, delimiter=';')
+        logging.warning(f'create parse -- {self}')
+
 
     def read_column(self):
         return self.fieldnames
@@ -58,9 +63,14 @@ for i in csv_dict:
             result_dict[cutting_str] = cash
         else:
             result_dict[cutting_str] += cash
+    summ = sum([i for i in result_dict.values()])
+    # logging.error(f'sum - {summ} руб.')
 
 
 print_dict(result_dict)
 
 a = 'Сумма в валюте счета'
+logging.warning(f'object - {csv_dict.__sizeof__()} ')
+
 print(cut_str(a, 4))
+
