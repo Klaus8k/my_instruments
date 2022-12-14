@@ -17,6 +17,11 @@ def print_dict(dict_from_csv: dict):
         print(i, '------', sorted_dict[i])
 
 
+def cut_str(sting: str, cut: int):
+    result = sting.rstrip()
+    return result[:cut]
+
+
 file_name = '01.01.2022-12.12.2022.csv'
 csv_file = pathlib.Path.cwd() / 'csv_files' / file_name
 
@@ -47,12 +52,15 @@ for i in csv_dict:
     cash = int(i['Сумма в валюте счета'].split(',')[0])
     if i['Тип операции (пополнение/списание)'] == 'Debit' and \
             i['Категория операции'] == 'cardOperation':
+        cutting_str = cut_str(i['Контрагент'],6)
+        if cutting_str not in result_dict.keys():
 
-        if i['Контрагент'].rstrip() not in result_dict.keys():
-
-            result_dict[i['Контрагент'].rstrip()] = cash
+            result_dict[cutting_str] = cash
         else:
-            result_dict[i['Контрагент'].rstrip()] += cash
+            result_dict[cutting_str] += cash
 
 
 print_dict(result_dict)
+
+a = 'Сумма в валюте счета'
+print(cut_str(a, 4))
