@@ -1,25 +1,8 @@
 import pathlib
 import csv
-import logging
-
-logger = logging.basicConfig(filename='log_csv.txt', filemode='a')
-
-files_dir = pathlib.Path.cwd() / 'csv_files'
-target_file = files_dir / '01.01.2022-12.12.2022.csv'
-
-
-def print_dict(dict_from_csv: dict):
-    sorted_dict = {}
-    sorted_keys = sorted(dict_from_csv, key=dict_from_csv.get)
-
-    for i in sorted_keys:
-        sorted_dict[i] = dict_from_csv[i]
-        print(i, '------', sorted_dict[i])
-
 
 file_name = '01.01.2022-12.12.2022.csv'
 csv_file = pathlib.Path.cwd() / 'csv_files' / file_name
-
 
 class Pars_csv(csv.DictReader):
     def __init__(self, path):
@@ -33,14 +16,16 @@ class Pars_csv(csv.DictReader):
     def count_row(self):
         return self.line_num - 1
 
-    def check_column_val(self, name_column: str):
+    def check_column_val(self, name_column: str): 
         result_list = []
         for i in self:
             result_list.append(i[name_column])
         return result_list
 
+    
 
 csv_dict = Pars_csv(csv_file)
+
 
 result_dict = {}
 for i in csv_dict:
@@ -55,4 +40,4 @@ for i in csv_dict:
             result_dict[i['Контрагент'].rstrip()] += cash
 
 
-print_dict(result_dict)
+print(result_dict)
