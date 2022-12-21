@@ -1,31 +1,46 @@
-# put your python code here
-# a = input()
-a = '()[]}'
-a = list(a)
+import logging
 
-match = {'(': ')',
-         '[': ']',
-         '{': '}'}
+logging.StreamHandler()
 
 
-def match_brakes(stack):
-    b = []
-    count = 1
-    for i in stack:
-        count += 1
+class Stack(list):
+    def __init__(self) :
+        super().__init__()
+    
+    def put(self, item):
+        self.append(item)
 
-        print(i)
+    def pop_item(self):
+        if self:
+            return self.pop()
+        else: return ''
+
+    def show(self):
+        return self
+
+target = '{{[()]]'
+
+def check_br(inp: str):
+    match = {'(':')','[':']','{':'}'}
+
+    op = Stack()
+    # clo = Stack()
+
+    for i in inp:
+        logging.warning(op.show())
+
         if i in match.keys():
-            b.append(i)
+            op.put(i)
+
         elif i in match.values():
-            for j in match.keys():
-                if match[j] == i and j in b:
-                    b.remove(j)
-                else: break
-            return count # С возвратом разобраться
-        else:
-            continue
+            
+            if len(op) and (match[op.pop_item()] == i):
+                print(op.show())
+            else:
+                logging.warning(inp.index(i) + 1)  
+                return inp.index(i)+1
+        else: continue
+    return 'success'
 
 
-
-print(match_brakes(a))
+check_br(target)
