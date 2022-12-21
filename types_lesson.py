@@ -1,7 +1,5 @@
-import logging
 
-logging.StreamHandler()
-
+match = {'(':')','[':']','{':'}'}
 
 class Stack(list):
     def __init__(self) :
@@ -18,29 +16,34 @@ class Stack(list):
     def show(self):
         return self
 
-target = '{{[()]]'
+target = input()
 
 def check_br(inp: str):
-    match = {'(':')','[':']','{':'}'}
 
     op = Stack()
     # clo = Stack()
-
+    err_index = 1
+    count = 0
     for i in inp:
-        logging.warning(op.show())
+        count += 1
+        # logging.warning(op.show())
 
         if i in match.keys():
             op.put(i)
 
         elif i in match.values():
-            
+            # logging.warning(i)
             if len(op) and (match[op.pop_item()] == i):
-                print(op.show())
+                err_index += 1
             else:
-                logging.warning(inp.index(i) + 1)  
-                return inp.index(i)+1
-        else: continue
-    return 'success'
+                # logging.warning(count)  
+                return count
+        else: pass
+
+    if op.show() != []:
+        return err_index
+    else: 
+        return 'Success'
 
 
-check_br(target)
+print(check_br(target))
