@@ -17,9 +17,10 @@ def req():
             sons[i] = [count,]
         count += 1
 
-def search(sons_list):
-    print(sons_list)
-    return sons_list
+def search(sons_list): # Здесь рекурсивную функцию для обхода списков сыновей
+    
+    for i in sons_list:
+        search(sons[i])
 
 req()
     
